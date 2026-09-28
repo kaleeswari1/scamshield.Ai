@@ -1,0 +1,3505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ScamShield AI | Learn to Spot. Learn to Stop.</title>
+
+<style>
+
+/* =========================================================
+GLOBAL
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+:root {
+    --bg: #050711;
+    --bg2: #080d1c;
+    --card: rgba(13, 20, 39, 0.72);
+    --border: rgba(0, 255, 255, 0.20);
+    --cyan: #00f5ff;
+    --blue: #4d7cff;
+    --purple: #9b5cff;
+    --pink: #ff3cac;
+    --green: #00ff9d;
+    --red: #ff416c;
+    --text: #f4f8ff;
+    --muted: #9ca9c9;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(0, 245, 255, 0.08), transparent 30%),
+        radial-gradient(circle at 80% 30%, rgba(155, 92, 255, 0.10), transparent 30%),
+        radial-gradient(circle at 50% 90%, rgba(255, 60, 172, 0.06), transparent 35%),
+        var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+}
+
+/* =========================================================
+CURSOR GLOW
+========================================================= */
+
+.cursor-glow {
+    position: fixed;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    pointer-events: none;
+    background: radial-gradient(
+        circle,
+        rgba(0, 245, 255, 0.15),
+        rgba(77, 124, 255, 0.08),
+        transparent 70%
+    );
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    mix-blend-mode: screen;
+}
+
+/* =========================================================
+BACKGROUND
+========================================================= */
+
+.grid-background {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.18;
+    background-image:
+        linear-gradient(rgba(0,255,255,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,255,0.08) 1px, transparent 1px);
+    background-size: 50px 50px;
+    mask-image: linear-gradient(to bottom, black, transparent);
+    z-index: -1;
+}
+
+/* =========================================================
+NAVBAR
+========================================================= */
+
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 15px 5%;
+    backdrop-filter: blur(18px);
+    background: rgba(5, 7, 17, 0.78);
+    border-bottom: 1px solid rgba(0, 245, 255, 0.15);
+}
+
+.nav-container {
+    max-width: 1250px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 21px;
+    font-weight: bold;
+    color: white;
+}
+
+.logo-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--cyan), var(--purple));
+    box-shadow: 0 0 25px rgba(0,245,255,0.5);
+}
+
+.logo span {
+    color: var(--cyan);
+}
+
+.nav-links {
+    display: flex;
+    gap: 25px;
+    list-style: none;
+}
+
+.nav-links a {
+    color: #c9d4ec;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.nav-links a:hover {
+    color: var(--cyan);
+    text-shadow: 0 0 12px var(--cyan);
+}
+
+.nav-button {
+    padding: 10px 18px;
+    border-radius: 20px;
+    color: white;
+    text-decoration: none;
+    border: 1px solid var(--cyan);
+    box-shadow: 0 0 15px rgba(0,245,255,0.15);
+    transition: 0.3s;
+}
+
+.nav-button:hover {
+    background: var(--cyan);
+    color: #001014;
+    box-shadow: 0 0 25px var(--cyan);
+}
+
+/* =========================================================
+HERO
+========================================================= */
+
+section {
+    padding: 110px 6%;
+}
+
+.hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    align-items: center;
+    max-width: 1250px;
+    margin: auto;
+    padding-top: 130px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 30px;
+    border: 1px solid rgba(0,245,255,0.3);
+    background: rgba(0,245,255,0.06);
+    color: var(--cyan);
+    font-size: 13px;
+    margin-bottom: 22px;
+    box-shadow: 0 0 20px rgba(0,245,255,0.08);
+}
+
+.hero h1 {
+    font-size: clamp(45px, 7vw, 85px);
+    line-height: 0.98;
+    margin-bottom: 25px;
+}
+
+.gradient-text {
+    background: linear-gradient(
+        90deg,
+        var(--cyan),
+        var(--blue),
+        var(--purple),
+        var(--pink)
+    );
+    -webkit-background-clip: text;
+    color: transparent;
+    text-shadow: none;
+}
+
+.hero p {
+    max-width: 650px;
+    color: var(--muted);
+    font-size: 18px;
+    line-height: 1.7;
+}
+
+.hero-buttons {
+    margin-top: 30px;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.primary-btn,
+.secondary-btn {
+    padding: 14px 25px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.primary-btn {
+    color: #001014;
+    background: var(--cyan);
+    box-shadow: 0 0 25px rgba(0,245,255,0.45);
+}
+
+.primary-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 40px var(--cyan);
+}
+
+.secondary-btn {
+    color: white;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.04);
+}
+
+.secondary-btn:hover {
+    border-color: var(--cyan);
+}
+
+/* =========================================================
+AI FACE
+========================================================= */
+
+.face-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.ai-face {
+    width: 330px;
+    height: 400px;
+    border: 2px solid rgba(0,245,255,0.7);
+    border-radius: 45% 45% 40% 40%;
+    position: relative;
+    background:
+        radial-gradient(circle at 50% 30%, rgba(0,245,255,0.12), transparent 40%),
+        rgba(5, 15, 30, 0.8);
+    box-shadow:
+        0 0 30px rgba(0,245,255,0.35),
+        inset 0 0 50px rgba(0,245,255,0.08);
+    animation: floating 4s ease-in-out infinite;
+}
+
+.ai-face::before {
+    content: "";
+    position: absolute;
+    inset: -18px;
+    border-radius: inherit;
+    border: 1px solid rgba(155,92,255,0.4);
+    box-shadow: 0 0 45px rgba(155,92,255,0.2);
+}
+
+.scan-line {
+    position: absolute;
+    left: 15%;
+    width: 70%;
+    height: 2px;
+    background: var(--cyan);
+    box-shadow: 0 0 15px var(--cyan);
+    animation: scan 3s infinite;
+}
+
+.eyes {
+    position: absolute;
+    top: 125px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 55px;
+}
+
+.eye {
+    width: 55px;
+    height: 30px;
+    border-radius: 50%;
+    border: 3px solid var(--cyan);
+    box-shadow: 0 0 20px var(--cyan);
+    position: relative;
+}
+
+.eye::after {
+    content: "";
+    position: absolute;
+    width: 13px;
+    height: 13px;
+    background: white;
+    border-radius: 50%;
+    left: 18px;
+    top: 5px;
+    box-shadow: 0 0 12px white;
+}
+
+.nose {
+    position: absolute;
+    top: 190px;
+    left: 50%;
+    width: 3px;
+    height: 45px;
+    background: var(--cyan);
+    box-shadow: 0 0 10px var(--cyan);
+    transform: translateX(-50%);
+}
+
+.mouth {
+    position: absolute;
+    top: 260px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 110px;
+    height: 35px;
+    border-bottom: 3px solid var(--cyan);
+    border-radius: 0 0 60px 60px;
+    box-shadow: 0 12px 20px rgba(0,245,255,0.1);
+}
+
+.face-label {
+    position: absolute;
+    bottom: 45px;
+    width: 100%;
+    text-align: center;
+    color: var(--cyan);
+    font-size: 13px;
+    letter-spacing: 3px;
+}
+
+@keyframes floating {
+    0%,100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+@keyframes scan {
+    0% {
+        top: 20px;
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    80% {
+        opacity: 1;
+    }
+
+    100% {
+        top: 360px;
+        opacity: 0;
+    }
+}
+
+/* =========================================================
+SECTION TITLE
+========================================================= */
+
+.section-title {
+    text-align: center;
+    max-width: 750px;
+    margin: 0 auto 60px;
+}
+
+.section-title h2 {
+    font-size: 42px;
+    margin-bottom: 15px;
+}
+
+.section-title p {
+    color: var(--muted);
+    line-height: 1.7;
+}
+
+/* =========================================================
+DASHBOARD
+========================================================= */
+
+.dashboard {
+    max-width: 1200px;
+    margin: auto;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+}
+
+.stat-card,
+.feature-card,
+.mission-card,
+.analysis-card,
+.leader-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    transition: 0.3s;
+}
+
+.stat-card {
+    padding: 25px;
+}
+
+.stat-card:hover,
+.feature-card:hover,
+.mission-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--cyan);
+    box-shadow: 0 0 30px rgba(0,245,255,0.1);
+}
+
+.stat-icon {
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.stat-number {
+    font-size: 30px;
+    font-weight: bold;
+    color: var(--cyan);
+}
+
+.stat-label {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+/* =========================================================
+FEATURES
+========================================================= */
+
+.features-grid {
+    max-width: 1200px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.feature-card {
+    padding: 30px;
+}
+
+.feature-icon {
+    width: 55px;
+    height: 55px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    margin-bottom: 20px;
+    background: rgba(0,245,255,0.08);
+    border: 1px solid rgba(0,245,255,0.2);
+}
+
+.feature-card h3 {
+    margin-bottom: 12px;
+}
+
+.feature-card p {
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+/* =========================================================
+   MISSIONS
+========================================================= */
+
+.mission-container {
+    max-width: 950px;
+    margin: auto;
+}
+
+.mission-card {
+    padding: 35px;
+}
+
+.mission-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+
+.difficulty {
+    color: #ffd166;
+}
+
+.scam-message {
+    padding: 25px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 15px;
+    border-left: 3px solid var(--pink);
+    line-height: 1.7;
+    margin-bottom: 25px;
+}
+
+.options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.option {
+    padding: 15px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.option:hover {
+    border-color: var(--cyan);
+    background: rgba(0,245,255,0.08);
+}
+
+.result {
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 15px;
+    display: none;
+    line-height: 1.6;
+}
+
+.result.correct {
+    display: block;
+    border: 1px solid var(--green);
+    background: rgba(0,255,157,0.08);
+    color: var(--green);
+}
+
+.result.wrong {
+    display: block;
+    border: 1px solid var(--red);
+    background: rgba(255,65,108,0.08);
+    color: #ff8ca4;
+}
+
+/* =========================================================
+   AI ANALYSIS
+========================================================= */
+
+.analysis-container {
+    max-width: 1100px;
+    margin: auto;
+}
+
+.analysis-card {
+    padding: 35px;
+}
+
+.risk-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.risk-score {
+    font-size: 50px;
+    font-weight: bold;
+    color: var(--red);
+    text-shadow: 0 0 20px rgba(255,65,108,0.5);
+}
+
+.progress-bar {
+    width: 100%;
+    height: 10px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 20px 0 30px;
+}
+
+.progress-fill {
+    width: 92%;
+    height: 100%;
+    background: linear-gradient(90deg, var(--cyan), var(--purple), var(--pink));
+    box-shadow: 0 0 20px var(--pink);
+}
+
+.warning-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.warning {
+    padding: 16px;
+    border-radius: 12px;
+    background: rgba(255,65,108,0.07);
+    border: 1px solid rgba(255,65,108,0.2);
+}
+
+/* =========================================================
+PROGRESS
+========================================================= */
+
+.progress-container {
+    max-width: 1000px;
+    margin: auto;
+}
+
+.skill {
+    margin-bottom: 25px;
+}
+
+.skill-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.skill-info span:last-child {
+    color: var(--cyan);
+}
+
+.skill-bar {
+    height: 8px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 10px;
+}
+
+.skill-value {
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--cyan), var(--purple));
+}
+
+/* =========================================================
+LEADERBOARD
+========================================================= */
+
+.leaderboard {
+    max-width: 850px;
+    margin: auto;
+}
+
+.leader-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 25px;
+    margin-bottom: 12px;
+}
+
+.rank {
+    font-size: 20px;
+    color: var(--cyan);
+}
+
+.player {
+    flex: 1;
+    margin-left: 20px;
+}
+
+.player small {
+    color: var(--muted);
+}
+
+.xp {
+    color: #ffd166;
+    font-weight: bold;
+}
+
+/* =========================================================
+   CTA
+========================================================= */
+
+.cta {
+    max-width: 1100px;
+    margin: auto;
+    text-align: center;
+    padding: 70px 30px;
+    border-radius: 30px;
+    background:
+        radial-gradient(circle at center, rgba(0,245,255,0.12), transparent 60%),
+        rgba(10,17,35,0.8);
+    border: 1px solid rgba(0,245,255,0.2);
+    box-shadow: 0 0 50px rgba(0,245,255,0.07);
+}
+
+.cta h2 {
+    font-size: 45px;
+    margin-bottom: 15px;
+}
+
+.cta p {
+    color: var(--muted);
+    margin-bottom: 30px;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+    padding: 35px;
+    text-align: center;
+    color: var(--muted);
+    border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+footer strong {
+    color: var(--cyan);
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width: 900px) {
+
+    .nav-links {
+        display: none;
+    }
+
+    .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .hero p {
+        margin: auto;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+    }
+
+    .face-area {
+        margin-top: 60px;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .warning-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width: 600px) {
+
+    section {
+        padding: 80px 5%;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .options {
+        grid-template-columns: 1fr;
+    }
+
+    .ai-face {
+        width: 260px;
+        height: 320px;
+    }
+
+    .eyes {
+        top: 100px;
+    }
+
+    .nose {
+        top: 155px;
+    }
+
+    .mouth {
+        top: 215px;
+    }
+
+    .hero h1 {
+        font-size: 48px;
+    }
+
+    .cta h2 {
+        font-size: 32px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- CURSOR -->
+<div class="cursor-glow"></div>
+
+<!-- BACKGROUND -->
+<div class="grid-background"></div>
+
+
+<!-- ======================================================
+     NAVIGATION
+====================================================== -->
+
+<nav>
+
+<div class="nav-container">
+
+<div class="logo">
+    <div class="logo-icon">🛡️</div>
+    Scam<span>Shield</span> AI
+</div>
+
+<ul class="nav-links">
+
+<li><a href="#home">Home</a></li>
+<li><a href="#dashboard">Dashboard</a></li>
+<li><a href="#missions">Missions</a></li>
+<li><a href="#analysis">AI Analysis</a></li>
+<li><a href="#progress">Progress</a></li>
+<li><a href="#leaderboard">Leaderboard</a></li>
+<li><a href="#about">About</a></li>
+
+</ul>
+
+<a href="#missions" class="nav-button">
+Start Mission
+</a>
+
+</div>
+
+</nav>
+
+
+<!-- ======================================================
+     HERO
+====================================================== -->
+
+<section id="home">
+
+<div class="hero">
+
+<div>
+
+<div class="badge">
+⚡ AI-POWERED DIGITAL SAFETY
+</div>
+
+<h1>
+Learn to <span class="gradient-text">Spot.</span><br>
+Learn to <span class="gradient-text">Stop.</span>
+</h1>
+
+<p>
+ScamShield AI is a gamified cybersecurity learning platform
+that helps you identify fake jobs, phishing messages, banking
+scams, UPI frauds, QR scams and social-media threats through
+realistic interactive missions.
+</p>
+
+<div class="hero-buttons">
+
+<a href="#missions" class="primary-btn">
+🎯 Start a Mission
+</a>
+
+<a href="#analysis" class="secondary-btn">
+🤖 Explore AI Analysis
+</a>
+
+</div>
+
+</div>
+
+
+<!-- AI FACE -->
+
+<div class="face-area">
+
+<div class="ai-face">
+
+<div class="scan-line"></div>
+
+<div class="eyes">
+
+<div class="eye"></div>
+<div class="eye"></div>
+
+</div>
+
+<div class="nose"></div>
+
+<div class="mouth"></div>
+
+<div class="face-label">
+SCAMSHIELD AI
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ======================================================
+     DASHBOARD
+====================================================== -->
+
+<section id="dashboard">
+
+<div class="section-title">
+
+<h2>Command <span class="gradient-text">Dashboard</span></h2>
+
+<p>
+Track your cybersecurity learning journey,
+missions, XP, accuracy and safety skills.
+</p>
+
+</div>
+
+<div class="dashboard">
+
+<div class="stats-grid">
+
+<div class="stat-card">
+<div class="stat-icon">⚡</div>
+<div class="stat-number">1,240</div>
+<div class="stat-label">Total XP</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-icon">🎯</div>
+<div class="stat-number">87%</div>
+<div class="stat-label">Accuracy</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-icon">🔥</div>
+<div class="stat-number">12</div>
+<div class="stat-label">Day Streak</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-icon">🏆</div>
+<div class="stat-number">Level 7</div>
+<div class="stat-label">Cyber Guardian</div>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ======================================================
+     FEATURES
+====================================================== -->
+
+<section id="about">
+
+<div class="section-title">
+
+<h2>Built for <span class="gradient-text">Digital Safety</span></h2>
+
+<p>
+Learn cybersecurity by doing instead of simply reading.
+</p>
+
+</div>
+
+<div class="features-grid">
+
+<div class="feature-card">
+
+<div class="feature-icon">🤖</div>
+
+<h3>Explainable AI</h3>
+
+<p>
+Understand why a message is dangerous through
+AI-generated explanations and visible warning signs.
+</p>
+
+</div>
+
+
+<div class="feature-card">
+
+<div class="feature-icon">🎮</div>
+
+<h3>Interactive Missions</h3>
+
+<p>
+Practice with realistic scam scenarios and make
+decisions just like you would in the real world.
+</p>
+
+</div>
+
+
+<div class="feature-card">
+
+<div class="feature-icon">🧠</div>
+
+<h3>Adaptive Learning</h3>
+
+<p>
+Your weak scam categories are detected and
+additional practice is recommended.
+</p>
+
+</div>
+
+
+<div class="feature-card">
+
+<div class="feature-icon">⚡</div>
+
+<h3>Gamification</h3>
+
+<p>
+Earn XP, unlock levels, maintain streaks and
+collect cybersecurity badges.
+</p>
+
+</div>
+
+
+<div class="feature-card">
+
+<div class="feature-icon">📊</div>
+
+<h3>Progress Analytics</h3>
+
+<p>
+Monitor your accuracy and see which scam
+categories you need to improve.
+</p>
+
+</div>
+
+
+<div class="feature-card">
+
+<div class="feature-icon">🏆</div>
+
+<h3>Leaderboard</h3>
+
+<p>
+Compare your learning progress with other
+digital safety learners.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ======================================================
+     MISSIONS
+====================================================== -->
+
+<section id="missions">
+
+<div class="section-title">
+
+<h2>Scam <span class="gradient-text">Mission</span></h2>
+
+<p>
+Can you identify this suspicious message?
+</p>
+
+</div>
+
+<div class="mission-container">
+
+<div class="mission-card">
+
+<div class="mission-top">
+
+<strong id="missionNumber">MISSION #01</strong>
+
+<span class="difficulty" id="difficulty">
+● MEDIUM
+</span>
+
+</div>
+
+<div class="scam-message" id="scamMessage"></div>
+
+<div class="options">
+
+<button class="option" onclick="checkAnswer('safe')">
+🟢 Safe
+</button>
+
+<button class="option" onclick="checkAnswer('suspicious')">
+🟡 Suspicious
+</button>
+
+<button class="option" onclick="checkAnswer('scam')">
+🔴 Scam
+</button>
+
+</div>
+
+<div id="missionResult" class="result"></div>
+
+<button id="nextMissionBtn"
+class="primary-btn"
+onclick="nextMission()"
+style="display:none; margin-top:20px; border:none; cursor:pointer;">
+➡️ Next Mission
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ======================================================
+     AI ANALYSIS
+====================================================== -->
+
+<section id="analysis">
+
+<div class="section-title">
+
+<h2>AI <span class="gradient-text">Analysis</span></h2>
+
+<p>
+Understand the reasoning behind the scam detection.
+</p>
+
+</div>
+
+<div class="analysis-container">
+
+<div class="analysis-card">
+
+<div class="risk-header">
+
+<div>
+
+<h3>🚨 Risk Assessment</h3>
+
+<p style="color:#9ca9c9;margin-top:8px;">
+AI-powered explainable analysis
+</p>
+
+</div>
+
+<div class="risk-score">
+92%
+</div>
+
+</div>
+
+<div class="progress-bar">
+
+<div class="progress-fill"></div>
+
+</div>
+
+<div class="warning-list">
+
+<div class="warning">
+⚠️ <strong>Upfront Payment</strong><br>
+The user is asked to pay before receiving the job.
+</div>
+
+<div class="warning">
+⚠️ <strong>Unrealistic Offer</strong><br>
+The salary is presented without a proper recruitment process.
+</div>
+
+<div class="warning">
+⚠️ <strong>Urgency</strong><br>
+The message creates pressure with a short deadline.
+</div>
+
+<div class="warning">
+⚠️ <strong>Unverified Source</strong><br>
+The sender has not provided trustworthy verification.
+</div>
+
+</div>
+
+<br>
+
+<h3>🤖 AI Explanation</h3>
+
+<p style="color:#9ca9c9;line-height:1.7;margin-top:10px;">
+
+This message contains multiple warning signs commonly
+associated with fake job scams. The combination of an
+upfront payment request, unrealistic salary promise and
+urgent deadline creates a high-risk situation.
+
+</p>
+
+<br>
+
+<h3 style="color:#00ff9d;">
+🛡️ Recommended Safe Action
+</h3>
+
+<p style="color:#9ca9c9;line-height:1.7;margin-top:10px;">
+
+Do not pay the registration fee. Verify the company through
+its official website and never share OTPs, passwords or
+banking credentials.
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ======================================================
+     PROGRESS
+====================================================== -->
+
+<section id="progress">
+
+<div class="section-title">
+
+<h2>Your <span class="gradient-text">Progress</span></h2>
+
+<p>
+Your current scam-awareness skill levels.
+</p>
+
+</div>
+
+<div class="progress-container">
+
+<div class="skill">
+
+<div class="skill-info">
+<span>Phishing</span>
+<span>92%</span>
+</div>
+
+<div class="skill-bar">
+<div class="skill-value" style="width:92%;"></div>
+</div>
+
+</div>
+
+
+<div class="skill">
+
+<div class="skill-info">
+<span>Fake Jobs</span>
+<span>88%</span>
+</div>
+
+<div class="skill-bar">
+<div class="skill-value" style="width:88%;"></div>
+</div>
+
+</div>
+
+
+<div class="skill">
+
+<div class="skill-info">
+<span>Banking Scams</span>
+<span>81%</span>
+</div>
+
+<div class="skill-bar">
+<div class="skill-value" style="width:81%;"></div>
+</div>
+
+</div>
+
+
+<div class="skill">
+
+<div class="skill-info">
+<span>UPI Scams</span>
+<span>74%</span>
+</div>
+
+<div class="skill-bar">
+<div class="skill-value" style="width:74%;"></div>
+</div>
+
+</div>
+
+
+<div class="skill">
+
+<div class="skill-info">
+<span>QR Scams</span>
+<span>61%</span>
+</div>
+
+<div class="skill-bar">
+<div class="skill-value" style="width:61%;"></div>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ======================================================
+     LEADERBOARD
+====================================================== -->
+
+<section id="leaderboard">
+
+<div class="section-title">
+
+<h2>Cyber <span class="gradient-text">Leaderboard</span></h2>
+
+<p>
+Top digital safety learners.
+</p>
+
+</div>
+
+<div class="leaderboard">
+
+<div class="leader-card">
+
+<div class="rank">🥇</div>
+
+<div class="player">
+<strong>Cyber Guardian</strong><br>
+<small>Level 12</small>
+</div>
+
+<div class="xp">
+2,850 XP
+</div>
+
+</div>
+
+
+<div class="leader-card">
+
+<div class="rank">🥈</div>
+
+<div class="player">
+<strong>Digital Defender</strong><br>
+<small>Level 10</small>
+</div>
+
+<div class="xp">
+2,430 XP
+</div>
+
+</div>
+
+
+<div class="leader-card">
+
+<div class="rank">🥉</div>
+
+<div class="player">
+<strong>Scam Spotter</strong><br>
+<small>Level 9</small>
+</div>
+
+<div class="xp">
+2,180 XP
+</div>
+
+</div>
+
+
+<div class="leader-card">
+
+<div class="rank">04</div>
+
+<div class="player">
+<strong>You</strong><br>
+<small>Level 7</small>
+</div>
+
+<div class="xp">
+1,240 XP
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ======================================================
+     CTA
+====================================================== -->
+
+<section>
+
+<div class="cta">
+
+<h2>
+Ready to become a
+<span class="gradient-text">Scam Spotter?</span>
+</h2>
+
+<p>
+Don't wait until you encounter a scam.
+Learn to recognize the warning signs today.
+</p>
+
+<a href="#missions" class="primary-btn">
+🚀 Start Your Mission
+</a>
+
+</div>
+
+</section>
+
+
+<!-- ======================================================
+     FOOTER
+====================================================== -->
+
+<footer>
+
+<p>
+🛡️ <strong>ScamShield AI</strong>
+</p>
+
+<p style="margin-top:10px;">
+Learn to Spot. Learn to Stop.
+</p>
+
+<p style="margin-top:15px;font-size:12px;">
+Responsible & Explainable AI • Games for Learning & Skill Development
+</p>
+
+</footer>
+
+
+<script>
+
+/* =========================================================
+   CURSOR FOLLOW GLOW
+========================================================= */
+
+const cursorGlow = document.querySelector(".cursor-glow");
+
+document.addEventListener("mousemove", function(e) {
+    cursorGlow.style.left = e.clientX + "px";
+    cursorGlow.style.top = e.clientY + "px";
+});
+
+
+/* =========================================================
+   SCAM MISSION DATA
+========================================================= */
+
+const scenarios = [
+
+    {
+        category: "Fake Job",
+        difficulty: "MEDIUM",
+        message: "Congratulations! 🎉 You have been selected for a ₹45,000/month work-from-home job. Pay a ₹499 registration fee today to confirm your position.",
+        answer: "scam",
+        explanation: "This is a scam. It asks for an upfront payment and uses an attractive salary and urgency to pressure you."
+    },
+
+    {
+        category: "UPI Scam",
+        difficulty: "EASY",
+        message: "You have received a UPI collect request. Please enter your UPI PIN to receive ₹2,000 cashback.",
+        answer: "scam",
+        explanation: "This is a scam. You never need to enter your UPI PIN to receive money. A UPI PIN is used to authorize payments."
+    },
+
+    {
+        category: "Phishing",
+        difficulty: "MEDIUM",
+        message: "⚠️ Your bank KYC will expire today. Verify your account immediately using this link to avoid account suspension.",
+        answer: "scam",
+        explanation: "This is a phishing attempt. Urgent language and an unknown verification link are major warning signs."
+    },
+
+    {
+        category: "QR Scam",
+        difficulty: "EASY",
+        message: "🎁 Congratulations! Scan this QR code and enter your UPI PIN to receive your ₹5,000 reward.",
+        answer: "scam",
+        explanation: "This is a scam. Scanning a QR code and entering your UPI PIN can authorize a payment instead of receiving money."
+    },
+
+    {
+        category: "Social Media",
+        difficulty: "MEDIUM",
+        message: "Your Instagram account has been selected for verification. Send the OTP you received to our support agent to activate the blue badge.",
+        answer: "scam",
+        explanation: "This is a scam. OTPs are private authentication codes and should never be shared with another person."
+    },
+
+    {
+        category: "Banking",
+        difficulty: "EASY",
+        message: "Your bank statement is available in your official banking app. Log in through the app to review your recent transactions.",
+        answer: "safe",
+        explanation: "This is generally safe. The message directs you to use the official banking app instead of asking for a password, OTP or payment."
+    },
+
+    {
+        category: "Fake Job",
+        difficulty: "EASY",
+        message: "A company recruiter has shared an opening. The application is available on the company's official careers website and there is no application fee.",
+        answer: "safe",
+        explanation: "This is generally safe. The application is through the company's official careers website and does not request money."
+    },
+
+    {
+        category: "UPI Scam",
+        difficulty: "MEDIUM",
+        message: "Your friend sends you a UPI collect request for an amount you recognize, and you confirm it only after checking the recipient name and amount.",
+        answer: "suspicious",
+        explanation: "This is suspicious because a collect request can result in a payment. Always verify the recipient and amount before approving."
+    },
+
+    {
+        category: "Delivery",
+        difficulty: "MEDIUM",
+        message: "Your parcel could not be delivered. Update your address through this unknown link and pay ₹10 to reschedule delivery.",
+        answer: "suspicious",
+        explanation: "This is suspicious. Unexpected delivery links and small payment requests are commonly used to trick people."
+    },
+
+    {
+        category: "Lottery Scam",
+        difficulty: "EASY",
+        message: "🎉 You won ₹10 lakh in a lottery you never entered! Pay ₹2,000 as processing tax to claim your prize today.",
+        answer: "scam",
+        explanation: "This is a scam. You cannot normally win a lottery you never entered, and the upfront payment request is a major warning sign."
+    },
+
+    {
+        category: "Account Security",
+        difficulty: "EASY",
+        message: "You notice an account security alert. Instead of clicking the message link, you open the service's official app directly and check your account.",
+        answer: "safe",
+        explanation: "This is a safer approach. Opening the official app directly avoids potentially malicious links."
+    },
+
+    {
+        category: "Investment",
+        difficulty: "HARD",
+        message: "💰 Guaranteed 30% profit in 7 days! Transfer money to this personal UPI ID now and our expert will manage your investment.",
+        answer: "scam",
+        explanation: "This is a scam warning pattern. Guaranteed high returns and requests to transfer money to a personal account are serious red flags."
+    },
+
+    {
+        category: "Phishing",
+        difficulty: "MEDIUM",
+        message: "Your email storage is almost full. Go to the official email provider website by typing its address yourself and review your storage settings.",
+        answer: "safe",
+        explanation: "This can be safe when you independently open the official website rather than using an unknown link."
+    },
+
+    {
+        category: "Fake Job",
+        difficulty: "HARD",
+        message: "Work from home and earn ₹80,000 every month! No interview required. Send your Aadhaar, PAN and bank details on WhatsApp to complete registration.",
+        answer: "scam",
+        explanation: "This is a scam warning pattern. No interview, unrealistic earnings and requests for sensitive personal and banking information are major red flags."
+    },
+
+    {
+        category: "Banking",
+        difficulty: "MEDIUM",
+        message: "Someone claiming to be from your bank asks you to share your OTP to cancel a suspicious transaction.",
+        answer: "scam",
+        explanation: "This is a scam warning pattern. Do not share OTPs with callers. Use the bank's official contact channel instead."
+    },
+
+    {
+        category: "QR Scam",
+        difficulty: "HARD",
+        message: "A seller sends you a QR code and asks you to scan it to pay for an item you intentionally decided to purchase. You verify the seller name and amount before paying.",
+        answer: "safe",
+        explanation: "This can be safe when you intentionally make the payment and verify the recipient and amount before confirming."
+    },
+
+    {
+        category: "Social Media",
+        difficulty: "EASY",
+        message: "A friend sends you a strange link from a newly created account and asks you to log in with your social-media password.",
+        answer: "suspicious",
+        explanation: "This is suspicious. The account and login link should be verified independently before entering credentials."
+    },
+
+    {
+        category: "UPI Scam",
+        difficulty: "MEDIUM",
+        message: "A stranger says they accidentally sent you ₹5,000 and asks you to send the money back to a different UPI ID immediately.",
+        answer: "suspicious",
+        explanation: "This is suspicious. Verify the transaction in your banking app and avoid sending money to an unverified account."
+    },
+
+    {
+        category: "Prize Scam",
+        difficulty: "MEDIUM",
+        message: "You receive a message saying you have won a smartphone from a contest you remember entering. It asks you to check the organizer's official website for the claim process and does not request payment.",
+        answer: "suspicious",
+        explanation: "This is still worth verifying. Check the contest through the organizer's official website or known contact details before providing information."
+    },
+
+    {
+        category: "Banking",
+        difficulty: "EASY",
+        message: "Your debit card will expire soon. You receive a notice in your official banking app telling you how to request a replacement through the bank.",
+        answer: "safe",
+        explanation: "This is generally safe when the notice is inside the official banking app and does not request your OTP or password."
+    }
+
+];
+
+
+/* =========================================================
+   MISSION GAME STATE
+========================================================= */
+
+let shuffledScenarios = [];
+let currentScenario = 0;
+let score = 0;
+let xp = 0;
+let answered = false;
+
+
+/* =========================================================
+   SHUFFLE SCENARIOS
+========================================================= */
+
+function shuffleScenarios() {
+
+    shuffledScenarios = [...scenarios];
+
+    for (let i = shuffledScenarios.length - 1; i > 0; i--) {
+
+        const j = Math.floor(Math.random() * (i + 1));
+
+        [shuffledScenarios[i], shuffledScenarios[j]] =
+        [shuffledScenarios[j], shuffledScenarios[i]];
+    }
+}
+
+
+/* =========================================================
+   LOAD MISSION
+========================================================= */
+
+function loadMission() {
+
+    const scenario = shuffledScenarios[currentScenario];
+
+    document.getElementById("missionNumber").textContent =
+        "MISSION #" + String(currentScenario + 1).padStart(2, "0");
+
+    document.getElementById("difficulty").textContent =
+        "● " + scenario.difficulty;
+
+    document.getElementById("scamMessage").innerHTML = `
+        <strong>📱 ${scenario.category}</strong>
+        <br><br>
+        "${scenario.message}"
+    `;
+
+    const result = document.getElementById("missionResult");
+
+    result.className = "result";
+    result.innerHTML = "";
+
+    document.getElementById("nextMissionBtn").style.display = "none";
+
+    document.querySelectorAll(".option").forEach(button => {
+        button.disabled = false;
+        button.style.opacity = "1";
+        button.style.cursor = "pointer";
+    });
+
+    answered = false;
+}
+
+
+/* =========================================================
+   CHECK ANSWER
+========================================================= */
+
+function checkAnswer(answer) {
+
+    if (answered) {
+        return;
+    }
+
+    answered = true;
+
+    const scenario = shuffledScenarios[currentScenario];
+    const result = document.getElementById("missionResult");
+
+    result.className = "result";
+
+    if (answer === scenario.answer) {
+
+        score++;
+        xp += 100;
+
+        result.classList.add("correct");
+
+        result.innerHTML = `
+            <strong>🎉 Correct! +100 XP</strong>
+            <br><br>
+            ${scenario.explanation}
+        `;
+
+    } else {
+
+        result.classList.add("wrong");
+
+        result.innerHTML = `
+            <strong>⚠️ Not quite!</strong>
+            <br><br>
+            ${scenario.explanation}
+        `;
+    }
+
+    document.querySelectorAll(".option").forEach(button => {
+        button.disabled = true;
+        button.style.opacity = "0.55";
+        button.style.cursor = "not-allowed";
+    });
+
+    const nextButton = document.getElementById("nextMissionBtn");
+
+    nextButton.style.display = "inline-block";
+
+    if (currentScenario === shuffledScenarios.length - 1) {
+        nextButton.textContent = "🏆 View Final Result";
+    } else {
+        nextButton.textContent = "➡️ Next Mission";
+    }
+}
+
+
+/* =========================================================
+   NEXT MISSION
+========================================================= */
+
+function nextMission() {
+
+    currentScenario++;
+
+    if (currentScenario >= shuffledScenarios.length) {
+
+        showFinalResult();
+
+        return;
+    }
+
+    loadMission();
+
+    document.getElementById("missions").scrollIntoView({
+        behavior: "smooth"
+    });
+}
+
+
+/* =========================================================
+   FINAL RESULT
+========================================================= */
+
+function showFinalResult() {
+
+    const total = shuffledScenarios.length;
+    const percentage = Math.round((score / total) * 100);
+
+    const missionCard = document.querySelector(".mission-card");
+
+    missionCard.innerHTML = `
+        <div style="text-align:center; padding:20px;">
+
+            <div style="font-size:55px; margin-bottom:15px;">
+                🏆
+            </div>
+
+            <h2 style="margin-bottom:15px;">
+                Mission Complete!
+            </h2>
+
+            <p style="color:#9ca9c9; line-height:1.7;">
+                You completed all ${total} ScamShield AI missions.
+            </p>
+
+            <div style="
+                margin:30px 0;
+                display:grid;
+                grid-template-columns:repeat(3,1fr);
+                gap:15px;
+            ">
+
+                <div style="
+                    padding:20px;
+                    border:1px solid rgba(0,245,255,0.2);
+                    border-radius:15px;
+                    background:rgba(0,245,255,0.05);
+                ">
+                    <div style="font-size:28px; color:#00f5ff;">
+                        ${score}/${total}
+                    </div>
+                    <small style="color:#9ca9c9;">
+                        Correct
+                    </small>
+                </div>
+
+                <div style="
+                    padding:20px;
+                    border:1px solid rgba(0,255,157,0.2);
+                    border-radius:15px;
+                    background:rgba(0,255,157,0.05);
+                ">
+                    <div style="font-size:28px; color:#00ff9d;">
+                        ${percentage}%
+                    </div>
+                    <small style="color:#9ca9c9;">
+                        Accuracy
+                    </small>
+                </div>
+
+                <div style="
+                    padding:20px;
+                    border:1px solid rgba(255,209,102,0.2);
+                    border-radius:15px;
+                    background:rgba(255,209,102,0.05);
+                ">
+                    <div style="font-size:28px; color:#ffd166;">
+                        ${xp}
+                    </div>
+                    <small style="color:#9ca9c9;">
+                        XP Earned
+                    </small>
+                </div>
+
+            </div>
+
+            <button
+                class="primary-btn"
+                onclick="restartMissions()"
+                style="border:none; cursor:pointer;">
+                🔄 Play Again
+            </button>
+
+        </div>
+    `;
+}
+
+
+/* =========================================================
+   RESTART MISSIONS
+========================================================= */
+
+function restartMissions() {
+
+    const missionContainer =
+        document.querySelector(".mission-container");
+
+    missionContainer.innerHTML = `
+        <div class="mission-card">
+
+            <div class="mission-top">
+
+                <strong id="missionNumber">
+                    MISSION #01
+                </strong>
+
+                <span class="difficulty" id="difficulty">
+                    ● MEDIUM
+                </span>
+
+            </div>
+
+            <div class="scam-message" id="scamMessage"></div>
+
+            <div class="options">
+
+                <button class="option"
+                        onclick="checkAnswer('safe')">
+                    🟢 Safe
+                </button>
+
+                <button class="option"
+                        onclick="checkAnswer('suspicious')">
+                    🟡 Suspicious
+                </button>
+
+                <button class="option"
+                        onclick="checkAnswer('scam')">
+                    🔴 Scam
+                </button>
+
+            </div>
+
+            <div id="missionResult" class="result"></div>
+
+            <button id="nextMissionBtn"
+                    class="primary-btn"
+                    onclick="nextMission()"
+                    style="display:none; margin-top:20px; border:none; cursor:pointer;">
+                ➡️ Next Mission
+            </button>
+
+        </div>
+    `;
+
+    currentScenario = 0;
+    score = 0;
+    xp = 0;
+
+    shuffleScenarios();
+    loadMission();
+
+    document.getElementById("missions").scrollIntoView({
+        behavior: "smooth"
+    });
+}
+
+
+/* =========================================================
+   NAVIGATION ACTIVE EFFECT
+========================================================= */
+
+const sections = document.querySelectorAll("section");
+const navLinks = document.querySelectorAll(".nav-links a");
+
+window.addEventListener("scroll", () => {
+
+    let current = "";
+
+    sections.forEach(section => {
+
+        const sectionTop = section.offsetTop - 150;
+
+        if (window.scrollY >= sectionTop) {
+            current = section.getAttribute("id");
+        }
+
+    });
+
+    navLinks.forEach(link => {
+
+        link.style.color = "";
+
+        if (link.getAttribute("href") === "#" + current) {
+            link.style.color = "#00f5ff";
+        }
+
+    });
+
+});
+
+
+/* =========================================================
+   SMALL SCROLL REVEAL
+========================================================= */
+
+const cards = document.querySelectorAll(
+    ".feature-card, .stat-card, .mission-card, .analysis-card, .leader-card"
+);
+
+const observer = new IntersectionObserver(
+
+    entries => {
+
+        entries.forEach(entry => {
+
+            if (entry.isIntersecting) {
+
+                entry.target.style.opacity = "1";
+                entry.target.style.transform = "translateY(0)";
+
+            }
+
+        });
+
+    },
+
+    {
+        threshold: 0.1
+    }
+
+);
+
+cards.forEach(card => {
+
+    card.style.opacity = "0";
+    card.style.transform = "translateY(25px)";
+    card.style.transition = "0.7s ease";
+
+    observer.observe(card);
+
+});
+
+
+/* =========================================================
+   START GAME
+========================================================= */
+
+shuffleScenarios();
+loadMission();
+
+</script>
+<!-- =========================================================
+     SCAMSHIELD AI - GAMIFICATION ADD-ON
+     Paste this entire block before </body>
+========================================================= -->
+
+<style>
+
+.gm-section {
+    padding: 90px 6%;
+}
+
+.gm-container {
+    max-width: 1200px;
+    margin: auto;
+}
+
+.gm-title {
+    text-align: center;
+    max-width: 750px;
+    margin: 0 auto 45px;
+}
+
+.gm-title h2 {
+    font-size: 42px;
+    margin-bottom: 12px;
+}
+
+.gm-title p {
+    color: var(--muted);
+    line-height: 1.7;
+}
+
+.gm-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+}
+
+.gm-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 25px;
+    transition: 0.3s;
+}
+
+.gm-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--cyan);
+    box-shadow: 0 0 30px rgba(0,245,255,0.12);
+}
+
+.gm-icon {
+    font-size: 30px;
+    margin-bottom: 12px;
+}
+
+.gm-card h3 {
+    margin-bottom: 8px;
+}
+
+.gm-number {
+    color: var(--cyan);
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.gm-muted {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.gm-xp-bar {
+    height: 9px;
+    width: 100%;
+    background: rgba(255,255,255,0.08);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 15px;
+}
+
+.gm-xp-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(
+        90deg,
+        var(--cyan),
+        var(--purple),
+        var(--pink)
+    );
+    box-shadow: 0 0 15px var(--cyan);
+    transition: width 0.7s ease;
+}
+
+.gm-full {
+    grid-column: 1 / -1;
+}
+
+.gm-daily-message {
+    padding: 20px;
+    margin-top: 18px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 15px;
+    border-left: 3px solid var(--pink);
+    line-height: 1.7;
+}
+
+.gm-daily-options {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 12px;
+    margin-top: 18px;
+}
+
+.gm-btn {
+    padding: 13px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: bold;
+}
+
+.gm-btn:hover {
+    border-color: var(--cyan);
+    background: rgba(0,245,255,0.08);
+}
+
+.gm-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.gm-daily-result {
+    margin-top: 18px;
+    padding: 18px;
+    border-radius: 14px;
+    line-height: 1.6;
+    display: none;
+}
+
+.gm-daily-correct {
+    display: block;
+    border: 1px solid var(--green);
+    background: rgba(0,255,157,0.08);
+    color: var(--green);
+}
+
+.gm-daily-wrong {
+    display: block;
+    border: 1px solid var(--red);
+    background: rgba(255,65,108,0.08);
+    color: #ff8ca4;
+}
+
+.gm-badges {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 12px;
+    margin-top: 18px;
+}
+
+.gm-badge {
+    text-align: center;
+    padding: 15px 10px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.03);
+    transition: 0.3s;
+}
+
+.gm-badge.unlocked {
+    border-color: rgba(0,245,255,0.35);
+    box-shadow: 0 0 15px rgba(0,245,255,0.08);
+}
+
+.gm-badge.locked {
+    opacity: 0.35;
+}
+
+.gm-badge-icon {
+    font-size: 28px;
+    margin-bottom: 7px;
+}
+
+.gm-category {
+    margin-top: 18px;
+}
+
+.gm-category-row {
+    margin-bottom: 18px;
+}
+
+.gm-category-head {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 7px;
+    font-size: 14px;
+}
+
+.gm-category-head span:last-child {
+    color: var(--cyan);
+}
+
+.gm-category-bar {
+    width: 100%;
+    height: 8px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.08);
+    overflow: hidden;
+}
+
+.gm-category-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(
+        90deg,
+        var(--cyan),
+        var(--purple)
+    );
+    transition: width 0.7s ease;
+}
+
+.gm-streak-fire {
+    font-size: 45px;
+    animation: gmFire 1.5s ease-in-out infinite;
+}
+
+@keyframes gmFire {
+    0%,100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.12);
+    }
+}
+
+.gm-level {
+    color: #ffd166;
+    font-weight: bold;
+}
+
+@media(max-width:900px) {
+
+    .gm-grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:600px) {
+
+    .gm-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .gm-daily-options {
+        grid-template-columns: 1fr;
+    }
+
+    .gm-badges {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .gm-title h2 {
+        font-size: 32px;
+    }
+
+}
+
+</style>
+
+
+<script>
+
+(function() {
+
+    /* =====================================================
+       GAMIFICATION DATA
+    ===================================================== */
+
+    const GM_KEY = "scamshield_gamification_v1";
+
+    const defaultState = {
+        xp: 1240,
+        missionsAnswered: 0,
+        correctAnswers: 0,
+        streak: 0,
+        lastActiveDate: "",
+        dailyCompletedDate: "",
+        badges: [],
+        categories: {}
+    };
+
+    let gmState;
+
+    try {
+
+        gmState = JSON.parse(
+            localStorage.getItem(GM_KEY)
+        ) || structuredClone(defaultState);
+
+    } catch(error) {
+
+        gmState = structuredClone(defaultState);
+
+    }
+
+
+    /* =====================================================
+       DATE FUNCTIONS
+    ===================================================== */
+
+    function gmDateKey() {
+
+        const now = new Date();
+
+        return now.getFullYear() +
+            "-" +
+            String(now.getMonth() + 1).padStart(2, "0") +
+            "-" +
+            String(now.getDate()).padStart(2, "0");
+
+    }
+
+
+    function gmYesterday() {
+
+        const yesterday = new Date();
+
+        yesterday.setDate(
+            yesterday.getDate() - 1
+        );
+
+        return yesterday.getFullYear() +
+            "-" +
+            String(yesterday.getMonth() + 1).padStart(2, "0") +
+            "-" +
+            String(yesterday.getDate()).padStart(2, "0");
+
+    }
+
+
+    function gmSave() {
+
+        localStorage.setItem(
+            GM_KEY,
+            JSON.stringify(gmState)
+        );
+
+    }
+
+
+    /* =====================================================
+       LEVEL SYSTEM
+    ===================================================== */
+
+    function getLevel() {
+
+        return Math.floor(gmState.xp / 200) + 1;
+
+    }
+
+
+    function getCurrentLevelXP() {
+
+        return gmState.xp % 200;
+
+    }
+
+
+    /* =====================================================
+       CREATE GAMIFICATION SECTION
+    ===================================================== */
+
+    const analysisSection =
+        document.querySelector("#analysis");
+
+    if (!analysisSection) {
+        return;
+    }
+
+
+    analysisSection.insertAdjacentHTML(
+        "beforebegin",
+
+        `
+        <section class="gm-section" id="gamification">
+
+            <div class="gm-title">
+
+                <h2>
+                    Your
+                    <span class="gradient-text">
+                        Cyber Journey
+                    </span>
+                </h2>
+
+                <p>
+                    Build your scam-awareness skills,
+                    earn XP, unlock badges and maintain
+                    your safety streak.
+                </p>
+
+            </div>
+
+
+            <div class="gm-container">
+
+                <div class="gm-grid">
+
+
+                    <!-- LEVEL -->
+
+                    <div class="gm-card">
+
+                        <div class="gm-icon">
+                            🛡️
+                        </div>
+
+                        <h3>
+                            Guardian Level
+                        </h3>
+
+                        <div
+                            class="gm-number"
+                            id="gmLevel">
+                            Level 7
+                        </div>
+
+                        <div class="gm-muted">
+                            Cyber Guardian
+                        </div>
+
+                        <div class="gm-xp-bar">
+
+                            <div
+                                class="gm-xp-fill"
+                                id="gmXpFill">
+                            </div>
+
+                        </div>
+
+                        <div
+                            class="gm-muted"
+                            style="margin-top:8px;"
+                            id="gmXpText">
+                        </div>
+
+                    </div>
+
+
+                    <!-- XP -->
+
+                    <div class="gm-card">
+
+                        <div class="gm-icon">
+                            ⚡
+                        </div>
+
+                        <h3>
+                            Total XP
+                        </h3>
+
+                        <div
+                            class="gm-number"
+                            id="gmXP">
+                            1240
+                        </div>
+
+                        <div class="gm-muted">
+                            Earn +100 XP for
+                            correct missions
+                        </div>
+
+                    </div>
+
+
+                    <!-- STREAK -->
+
+                    <div class="gm-card">
+
+                        <div class="gm-icon gm-streak-fire">
+                            🔥
+                        </div>
+
+                        <h3>
+                            Safety Streak
+                        </h3>
+
+                        <div
+                            class="gm-number"
+                            id="gmStreak">
+                            0
+                        </div>
+
+                        <div class="gm-muted">
+                            days of learning
+                        </div>
+
+                    </div>
+
+
+                    <!-- ACCURACY -->
+
+                    <div class="gm-card">
+
+                        <div class="gm-icon">
+                            🎯
+                        </div>
+
+                        <h3>
+                            Accuracy
+                        </h3>
+
+                        <div
+                            class="gm-number"
+                            id="gmAccuracy">
+                            0%
+                        </div>
+
+                        <div class="gm-muted">
+                            mission answers
+                        </div>
+
+                    </div>
+
+
+                    <!-- DAILY CHALLENGE -->
+
+                    <div class="gm-card gm-full">
+
+                        <h3>
+                            🚨 Daily Scam Challenge
+                        </h3>
+
+                        <p
+                            class="gm-muted"
+                            style="margin-top:7px;">
+                            Complete today's special
+                            challenge for a bonus reward.
+                        </p>
+
+                        <div
+                            class="gm-daily-message"
+                            id="gmDailyMessage">
+                        </div>
+
+
+                        <div
+                            class="gm-daily-options"
+                            id="gmDailyOptions">
+
+                            <button
+                                class="gm-btn"
+                                data-gm-answer="safe">
+                                🟢 Safe
+                            </button>
+
+                            <button
+                                class="gm-btn"
+                                data-gm-answer="suspicious">
+                                🟡 Suspicious
+                            </button>
+
+                            <button
+                                class="gm-btn"
+                                data-gm-answer="scam">
+                                🔴 Scam
+                            </button>
+
+                        </div>
+
+
+                        <div
+                            class="gm-daily-result"
+                            id="gmDailyResult">
+                        </div>
+
+                    </div>
+
+
+                    <!-- BADGES -->
+
+                    <div class="gm-card gm-full">
+
+                        <h3>
+                            🏅 Achievements
+                        </h3>
+
+                        <p
+                            class="gm-muted"
+                            style="margin-top:7px;">
+                            Unlock badges by improving
+                            your scam-awareness skills.
+                        </p>
+
+                        <div
+                            class="gm-badges"
+                            id="gmBadges">
+                        </div>
+
+                    </div>
+
+
+                    <!-- CATEGORY PROGRESS -->
+
+                    <div class="gm-card gm-full">
+
+                        <h3>
+                            🧠 Scam Category Skills
+                        </h3>
+
+                        <p
+                            class="gm-muted"
+                            style="margin-top:7px;">
+                            Your progress across different
+                            scam categories.
+                        </p>
+
+                        <div
+                            class="gm-category"
+                            id="gmCategories">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+        `
+    );
+
+
+    /* =====================================================
+       DAILY CHALLENGE
+    ===================================================== */
+
+    let gmDailyScenario = null;
+
+
+    function loadDailyChallenge() {
+
+        if (
+            typeof scenarios === "undefined" ||
+            !scenarios.length
+        ) {
+            return;
+        }
+
+
+        const today = gmDateKey();
+
+        const numbers = today
+            .split("-")
+            .map(Number);
+
+        const index =
+            (numbers[0] * 365 +
+             numbers[1] * 31 +
+             numbers[2]) %
+            scenarios.length;
+
+
+        gmDailyScenario = scenarios[index];
+
+
+        document.getElementById(
+            "gmDailyMessage"
+        ).innerHTML = `
+
+            <strong>
+                📱 ${gmDailyScenario.category}
+            </strong>
+
+            <br><br>
+
+            "${gmDailyScenario.message}"
+
+            <br><br>
+
+            <span
+                style="color:#ffd166;font-weight:bold;">
+                🎁 Reward: +200 XP
+            </span>
+
+        `;
+
+
+        if (
+            gmState.dailyCompletedDate === today
+        ) {
+
+            document.getElementById(
+                "gmDailyResult"
+            ).className =
+                "gm-daily-result gm-daily-correct";
+
+
+            document.getElementById(
+                "gmDailyResult"
+            ).innerHTML = `
+                ✅ Today's challenge completed!
+                Come back tomorrow for a new challenge.
+            `;
+
+
+            document.querySelectorAll(
+                "#gmDailyOptions .gm-btn"
+            ).forEach(button => {
+
+                button.disabled = true;
+
+            });
+
+        }
+
+    }
+
+
+    /* =====================================================
+       DAILY ANSWER
+    ===================================================== */
+
+    document.addEventListener(
+        "click",
+        function(event) {
+
+            const button =
+                event.target.closest(
+                    "#gmDailyOptions .gm-btn"
+                );
+
+            if (!button) {
+                return;
+            }
+
+
+            const today = gmDateKey();
+
+
+            if (
+                gmState.dailyCompletedDate === today
+            ) {
+                return;
+            }
+
+
+            const selected =
+                button.dataset.gmAnswer;
+
+
+            const result =
+                document.getElementById(
+                    "gmDailyResult"
+                );
+
+
+            if (
+                selected ===
+                gmDailyScenario.answer
+            ) {
+
+                gmState.xp += 200;
+
+                result.className =
+                    "gm-daily-result gm-daily-correct";
+
+
+                result.innerHTML = `
+                    <strong>
+                        🎉 Excellent! +200 XP
+                    </strong>
+
+                    <br><br>
+
+                    ${gmDailyScenario.explanation}
+                `;
+
+            } else {
+
+                result.className =
+                    "gm-daily-result gm-daily-wrong";
+
+
+                result.innerHTML = `
+                    <strong>
+                        ⚠️ Not quite!
+                    </strong>
+
+                    <br><br>
+
+                    ${gmDailyScenario.explanation}
+                `;
+
+            }
+
+
+            gmState.dailyCompletedDate = today;
+
+
+            document.querySelectorAll(
+                "#gmDailyOptions .gm-btn"
+            ).forEach(btn => {
+
+                btn.disabled = true;
+
+            });
+
+
+            gmUpdateStreak();
+
+            gmCheckBadges();
+
+            gmSave();
+
+            gmRender();
+
+        }
+
+    );
+
+
+    /* =====================================================
+       STREAK
+    ===================================================== */
+
+    function gmUpdateStreak() {
+
+        const today = gmDateKey();
+
+
+        if (
+            gmState.lastActiveDate === today
+        ) {
+            return;
+        }
+
+
+        if (
+            gmState.lastActiveDate ===
+            gmYesterday()
+        ) {
+
+            gmState.streak++;
+
+        } else {
+
+            gmState.streak = 1;
+
+        }
+
+
+        gmState.lastActiveDate = today;
+
+    }
+
+
+    /* =====================================================
+       RECORD EXISTING MISSION ANSWER
+    ===================================================== */
+
+    document.addEventListener(
+        "click",
+        function(event) {
+
+            const button =
+                event.target.closest(
+                    "#missions .option"
+                );
+
+            if (!button) {
+                return;
+            }
+
+
+            /*
+               Wait until the existing
+               checkAnswer() function
+               finishes.
+            */
+
+            setTimeout(function() {
+
+                const result =
+                    document.getElementById(
+                        "missionResult"
+                    );
+
+
+                if (!result) {
+                    return;
+                }
+
+
+                if (
+                    button.dataset.gmTracked === "yes"
+                ) {
+                    return;
+                }
+
+
+                button.dataset.gmTracked = "yes";
+
+
+                const isCorrect =
+                    result.classList.contains(
+                        "correct"
+                    );
+
+
+                const categoryElement =
+                    document.querySelector(
+                        "#scamMessage strong"
+                    );
+
+
+                let category =
+                    categoryElement ?
+                    categoryElement.textContent
+                        .replace("📱", "")
+                        .trim() :
+                    "Other";
+
+
+                gmState.missionsAnswered++;
+
+
+                if (isCorrect) {
+
+                    gmState.correctAnswers++;
+
+                    /*
+                       Existing mission already gives
+                       +100 XP internally.
+                       This XP is for the persistent
+                       gamification profile.
+                    */
+
+                    gmState.xp += 100;
+
+                }
+
+
+                if (
+                    !gmState.categories[category]
+                ) {
+
+                    gmState.categories[category] = {
+                        attempts: 0,
+                        correct: 0
+                    };
+
+                }
+
+
+                gmState.categories[
+                    category
+                ].attempts++;
+
+
+                if (isCorrect) {
+
+                    gmState.categories[
+                        category
+                    ].correct++;
+
+                }
+
+
+                gmUpdateStreak();
+
+                gmCheckBadges();
+
+                gmSave();
+
+                gmRender();
+
+            }, 100);
+
+        },
+        true
+    );
+
+
+    /* =====================================================
+       BADGES
+    ===================================================== */
+
+    const gmBadgeDefinitions = [
+
+        {
+            id: "first",
+            icon: "🛡️",
+            name: "First Shield",
+            condition: () =>
+                gmState.missionsAnswered >= 1
+        },
+
+        {
+            id: "five",
+            icon: "🎯",
+            name: "5 Correct",
+            condition: () =>
+                gmState.correctAnswers >= 5
+        },
+
+        {
+            id: "ten",
+            icon: "🧠",
+            name: "10 Correct",
+            condition: () =>
+                gmState.correctAnswers >= 10
+        },
+
+        {
+            id: "streak",
+            icon: "🔥",
+            name: "3-Day Streak",
+            condition: () =>
+                gmState.streak >= 3
+        },
+
+        {
+            id: "accuracy",
+            icon: "💎",
+            name: "Accuracy Master",
+            condition: () =>
+                gmState.missionsAnswered >= 10 &&
+                (
+                    gmState.correctAnswers /
+                    gmState.missionsAnswered
+                ) >= 0.8
+        },
+
+        {
+            id: "xp",
+            icon: "⚡",
+            name: "1000 XP",
+            condition: () =>
+                gmState.xp >= 1000
+        }
+
+    ];
+
+
+    function gmCheckBadges() {
+
+        gmBadgeDefinitions.forEach(
+            badge => {
+
+                if (
+                    badge.condition() &&
+                    !gmState.badges.includes(
+                        badge.id
+                    )
+                ) {
+
+                    gmState.badges.push(
+                        badge.id
+                    );
+
+                    gmShowBadgeNotification(
+                        badge
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       BADGE NOTIFICATION
+    ===================================================== */
+
+    function gmShowBadgeNotification(
+        badge
+    ) {
+
+        const popup =
+            document.createElement("div");
+
+
+        popup.style.position = "fixed";
+        popup.style.right = "25px";
+        popup.style.bottom = "25px";
+        popup.style.zIndex = "10000";
+        popup.style.width = "300px";
+        popup.style.padding = "20px";
+        popup.style.borderRadius = "18px";
+        popup.style.background =
+            "rgba(8,13,28,0.95)";
+        popup.style.border =
+            "1px solid #00f5ff";
+        popup.style.boxShadow =
+            "0 0 35px rgba(0,245,255,0.35)";
+        popup.style.backdropFilter =
+            "blur(15px)";
+        popup.style.color = "white";
+
+
+        popup.innerHTML = `
+
+            <div
+                style="
+                font-size:35px;
+                margin-bottom:8px;">
+                ${badge.icon}
+            </div>
+
+            <strong
+                style="
+                color:#00f5ff;
+                font-size:17px;">
+                Achievement Unlocked!
+            </strong>
+
+            <div
+                style="
+                margin-top:8px;
+                color:#ffd166;">
+                ${badge.name}
+            </div>
+
+        `;
+
+
+        document.body.appendChild(
+            popup
+        );
+
+
+        setTimeout(() => {
+
+            popup.style.opacity = "0";
+            popup.style.transform =
+                "translateY(20px)";
+            popup.style.transition =
+                "0.5s ease";
+
+
+            setTimeout(() => {
+
+                popup.remove();
+
+            }, 500);
+
+        }, 3500);
+
+    }
+
+
+    /* =====================================================
+       CATEGORY RENDER
+    ===================================================== */
+
+    function gmRenderCategories() {
+
+        const container =
+            document.getElementById(
+                "gmCategories"
+            );
+
+
+        if (!container) {
+            return;
+        }
+
+
+        const categoryNames = [
+
+            "Fake Job",
+            "UPI Scam",
+            "Phishing",
+            "QR Scam",
+            "Social Media",
+            "Banking",
+            "Delivery",
+            "Investment",
+            "Lottery Scam",
+            "Prize Scam",
+            "Account Security"
+
+        ];
+
+
+        container.innerHTML = "";
+
+
+        categoryNames.forEach(
+            category => {
+
+                const data =
+                    gmState.categories[
+                        category
+                    ] || {
+                        attempts: 0,
+                        correct: 0
+                    };
+
+
+                let percentage = 0;
+
+
+                if (data.attempts > 0) {
+
+                    percentage =
+                        Math.round(
+                            (
+                                data.correct /
+                                data.attempts
+                            ) * 100
+                        );
+
+                }
+
+
+                container.innerHTML += `
+
+                    <div
+                        class="gm-category-row">
+
+                        <div
+                            class="gm-category-head">
+
+                            <span>
+                                ${category}
+                            </span>
+
+                            <span>
+                                ${percentage}%
+                            </span>
+
+                        </div>
+
+                        <div
+                            class="gm-category-bar">
+
+                            <div
+                                class="gm-category-fill"
+                                style="
+                                width:${percentage}%;">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       BADGE RENDER
+    ===================================================== */
+
+    function gmRenderBadges() {
+
+        const container =
+            document.getElementById(
+                "gmBadges"
+            );
+
+
+        if (!container) {
+            return;
+        }
+
+
+        container.innerHTML = "";
+
+
+        gmBadgeDefinitions.forEach(
+            badge => {
+
+                const unlocked =
+                    gmState.badges.includes(
+                        badge.id
+                    );
+
+
+                container.innerHTML += `
+
+                    <div
+                        class="
+                        gm-badge
+                        ${unlocked
+                            ? "unlocked"
+                            : "locked"}">
+
+                        <div
+                            class="gm-badge-icon">
+                            ${badge.icon}
+                        </div>
+
+                        <strong>
+                            ${badge.name}
+                        </strong>
+
+                        <div
+                            class="gm-muted"
+                            style="margin-top:5px;">
+
+                            ${
+                                unlocked
+                                ? "Unlocked"
+                                : "Locked"
+                            }
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       MAIN RENDER
+    ===================================================== */
+
+    function gmRender() {
+
+        const level =
+            getLevel();
+
+
+        const levelXP =
+            getCurrentLevelXP();
+
+
+        const accuracy =
+            gmState.missionsAnswered > 0
+            ?
+            Math.round(
+                (
+                    gmState.correctAnswers /
+                    gmState.missionsAnswered
+                ) * 100
+            )
+            :
+            0;
+
+
+        document.getElementById(
+            "gmLevel"
+        ).textContent =
+            "Level " + level;
+
+
+        document.getElementById(
+            "gmXP"
+        ).textContent =
+            gmState.xp;
+
+
+        document.getElementById(
+            "gmStreak"
+        ).textContent =
+            gmState.streak;
+
+
+        document.getElementById(
+            "gmAccuracy"
+        ).textContent =
+            accuracy + "%";
+
+
+        document.getElementById(
+            "gmXpFill"
+        ).style.width =
+            (
+                (levelXP / 200) * 100
+            ) + "%";
+
+
+        document.getElementById(
+            "gmXpText"
+        ).textContent =
+            levelXP +
+            " / 200 XP to next level";
+
+
+        gmRenderBadges();
+
+        gmRenderCategories();
+
+    }
+
+
+    /* =====================================================
+       INITIALIZE
+    ===================================================== */
+
+    loadDailyChallenge();
+
+    gmCheckBadges();
+
+    gmSave();
+
+    gmRender();
+
+})();
+
+</script>
+</body>
+</html>
